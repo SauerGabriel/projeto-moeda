@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moedas</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        header {
+            width: 100%;
+        }
+
+        .titulo {
+            background-color: lightgray; /* Cor de fundo cinza */
+            padding: 60px 0; /* Espaço apenas acima e abaixo do texto */
+            text-align: center;
+            width: 100%;
+            position: fixed; /* Mantém o título no topo */
+            top: 0; /* Posiciona o título no topo da página */
+            z-index: 1; /* Garante que fique acima de outros elementos */
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            margin-top: 80px; /* Espaço para a logo não ficar atrás do título */
+        }
+
+        .logo {
+            max-width: 150px; /* Ajuste o tamanho da imagem conforme necessário */
+            height: auto;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px; /* Espaço para evitar sobreposição do título */
+        }
+
+        h1 {
+            color: purple;
+            margin: 0; /* Remove margens do h1 */
+        }
+
+        .input-group {
+            display: inline-block;
+            margin: 0 20px;
+        }
+
+        .input-box {
+            width: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .select-box {
+            width: 150px;
+            padding: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="titulo">
+            <h1>Conversor de Moedas</h1>
+        </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+        <div class="logo-container">
+            <img src="uniasselvi.jpg" alt="Logo Uniasselvi" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <div class="input-group">
+            <input type="number" class="input-box" placeholder="Valor" id="valorEntrada">
+            <select class="select-box" id="moedaEntrada">
+                <option value="USD">Dólar Americano</option>
+                <option value="BRL">Real Brasileiro</option>
+            </select>
+        </div>
+        <span>↔</span>
+        <div class="input-group">
+            <input type="number" class="input-box" disabled id="valorSaida">
+            <select class="select-box" id="moedaSaida">
+                <option value="BRL">Real Brasileiro</option>
+                <option value="USD">Dólar Americano</option>
+            </select>
+        </div>
+        <button class="btn">Converter</button>
+    </div>
+
+    <script>
+        const btnConverter = document.querySelector('.btn');
+        const selectMoedaEntrada = document.getElementById('moedaEntrada');
+        const selectMoedaSaida = document.getElementById('moedaSaida');
+        const inputValorEntrada = document.getElementById('valorEntrada');
+        const inputValorSaida = document.getElementById('valorSaida');
+
+        let taxaCambio = 5.3; // Taxa de câmbio fixa
+
+        // Função para atualizar as seleções
+        function atualizarSelecoes() {
+            const moedaEntrada = selectMoedaEntrada.value;
+
+            if (moedaEntrada === 'USD') {
+                selectMoedaSaida.value = 'BRL';
+            } else if (moedaEntrada === 'BRL') {
+                selectMoedaSaida.value = 'USD';
+            }
+        }
+
+        // Chamar a função inicialmente para definir os valores padrão
+        atualizarSelecoes();
+
+        // Adicionar event listeners aos dropdowns
+        selectMoedaEntrada.addEventListener('change', atualizarSelecoes);
+        selectMoedaSaida.addEventListener('change', atualizarSelecoes);
+
+        btnConverter.addEventListener('click', () => {
+            const valorEntrada = parseFloat(inputValorEntrada.value);
+            const moedaEntrada = selectMoedaEntrada.value;
+            const moedaSaida = selectMoedaSaida.value;
+
+            let valorSaida;
+
+            // Lógica de conversão
+            if (moedaEntrada === 'USD' && moedaSaida === 'BRL') {
+                valorSaida = valorEntrada * taxaCambio;
+            } else if (moedaEntrada === 'BRL' && moedaSaida === 'USD') {
+                valorSaida = valorEntrada / taxaCambio;
+            } else {
+                valorSaida = valorEntrada; // Se as moedas forem iguais
+            }
+
+            inputValorSaida.value = valorSaida.toFixed(2); // Define o valor com duas casas decimais
+        });
+    </script>
+</body>
+</html>
